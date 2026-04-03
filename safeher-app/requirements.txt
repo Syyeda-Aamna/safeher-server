@@ -1,0 +1,12 @@
+kivy==2.3.0
+kivymd==1.2.0
+plyer==2.1.0
+requests==2.31.0
+sqlite3
+pillow==10.1.0
+numpy==1.24.3
+android
+pyjnius==1.4.2
+geopy==2.4.1
+bcrypt==4.1.1
+python-jose[cryptography]==3.3.0

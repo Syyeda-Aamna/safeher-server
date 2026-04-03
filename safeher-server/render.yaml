@@ -1,0 +1,117 @@
+services:
+  # MongoDB Atlas Database
+  - type: web
+    name: safeher-mongodb
+    env: docker
+    plan: free
+    healthCheckPath: /health
+    healthCheckProtocol: HTTP
+    healthCheckTimeoutSeconds: 10
+    autoDeploy: false
+    buildCommand: "echo 'MongoDB connection handled by Atlas'"
+    startCommand: "echo 'Using MongoDB Atlas external database'"
+    envVars:
+      - key: MONGO_URI
+        sync: false
+        value: "mongodb+srv://USER:PASSWORD@cluster.mongodb.net/safeher"
+      - key: JWT_SECRET
+        sync: false
+        value: "REPLACE_WITH_STRONG_RANDOM_SECRET_MIN_32_CHARS"
+      - key: FAST2SMS_API_KEY
+        sync: false
+        value: "REPLACE_WITH_YOUR_FAST2SMS_API_KEY"
+      - key: GOOGLE_MAPS_KEY
+        sync: false
+        value: "REPLACE_WITH_YOUR_GOOGLE_MAPS_API_KEY"
+
+  # SafeHer API Server
+  - type: web
+    name: safeher-api
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
+    healthCheckPath: /health
+    healthCheckProtocol: HTTP
+    healthCheckTimeoutSeconds: 10
+    autoDeploy: true
+    envVars:
+      # Database Connection
+      - key: MONGO_URI
+        sync: false
+        value: "mongodb+srv://USER:PASSWORD@cluster.mongodb.net/safeher"
+      
+      # Security
+      - key: JWT_SECRET
+        sync: false
+        value: "REPLACE_WITH_STRONG_RANDOM_SECRET_MIN_32_CHARS"
+      
+      # External API Keys
+      - key: FAST2SMS_API_KEY
+        sync: false
+        value: "REPLACE_WITH_YOUR_FAST2SMS_API_KEY"
+      
+      - key: GOOGLE_MAPS_KEY
+        sync: false
+        value: "REPLACE_WITH_YOUR_GOOGLE_MAPS_API_KEY"
+      
+      # Application Settings
+      - key: APP_NAME
+        value: "SafeHer"
+      
+      - key: OTP_EXPIRY_MINUTES
+        value: "10"
+      
+      - key: MAX_OTP_PER_HOUR
+        value: "5"
+      
+      - key: BCRYPT_ROUNDS
+        value: "12"
+      
+      - key: RATE_LIMIT_PER_MINUTE
+        value: "60"
+      
+      - key: LOCATION_UPDATE_INTERVAL_MINUTES
+        value: "60"
+      
+      - key: CHECKIN_TIMER_MAX_HOURS
+        value: "24"
+
+# Global configuration
+version: "1.0.0"
+
+# Build and deployment settings
+build:
+  - type: python
+    name: safeher-api-build
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    env: python
+
+# Environment variables documentation
+# 
+# REQUIRED SETUP:
+# 1. MONGO_URI: Your MongoDB Atlas connection string
+#    Format: mongodb+srv://username:password@cluster.mongodb.net/database_name
+#
+# 2. JWT_SECRET: Strong random secret for JWT tokens
+#    Generate with: openssl rand -base64 32
+#
+# 3. FAST2SMS_API_KEY: Your Fast2SMS API key
+#    Get from: https://www.fast2sms.com/dev/bulkV2
+#
+# 4. GOOGLE_MAPS_KEY: Your Google Maps API key
+#    Get from: https://console.cloud.google.com/apis/credentials
+#
+# DEPLOYMENT:
+# 1. Push this code to GitHub
+# 2. Connect your GitHub repository to Render.com
+# 3. Update environment variables in Render dashboard
+# 4. Deploy - your API will be available at: https://safeher-api.onrender.com
+#
+# FREE TIER LIMITS:
+# - 750 hours/month usage
+# - 512MB RAM
+# - Shared CPU
+# - 10GB bandwidth
+# - Sleeps after 15 minutes inactivity
