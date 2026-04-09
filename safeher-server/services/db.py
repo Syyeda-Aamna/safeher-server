@@ -17,7 +17,9 @@ class Database:
         try:
             cls.client = MongoClient(
                 settings.MONGO_URI,
-                serverSelectionTimeoutMS=5000
+                serverSelectionTimeoutMS=10000,
+                retryWrites=True,
+                w="majority"
             )
             # Test the connection
             cls.client.admin.command('ping')

@@ -8,15 +8,15 @@ class OTPPurpose(str, Enum):
     RESET = "reset"
 
 class OTPRequest(BaseModel):
-    phone: str = Field(..., regex=r'^[6-9]\d{9}$')  # Indian mobile number
+    phone: str = Field(..., pattern=r'^[6-9]\d{9}$')  # Indian mobile number
     purpose: OTPPurpose = OTPPurpose.REGISTER
     
     class Config:
         use_enum_values = True
 
 class OTPVerify(BaseModel):
-    phone: str = Field(..., regex=r'^[6-9]\d{9}$')
-    otp: str = Field(..., regex=r'^\d{6}$')
+    phone: str = Field(..., pattern=r'^[6-9]\d{9}$')
+    otp: str = Field(..., pattern=r'^\d{6}$')
     purpose: OTPPurpose = OTPPurpose.REGISTER
     
     class Config:

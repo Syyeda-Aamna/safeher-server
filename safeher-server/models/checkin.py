@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from typing import Optional
 from datetime import datetime
 from enum import Enum
@@ -13,9 +13,10 @@ class CheckinStart(BaseModel):
     hours: int = Field(..., ge=0, le=24)
     minutes: int = Field(..., ge=0, le=59)
     
-    @validator('hours', 'minutes')
-    def validate_time(cls, v, values, field):
-        if field.name == 'hours' and v == 0 and values.get('minutes', 0) == 0:
+    @field_validator('hours', 'minutes')
+    @classmethod
+    def validate_time(cls, v, info):
+        if info.field_name == 'hours' and v == 0 and info.data.get('minutes', 0) == 0:
             raise ValueError('Timer must be at least 1 minute')
         return v
 

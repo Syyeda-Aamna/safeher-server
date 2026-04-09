@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, Field, validator
+from pydantic import BaseModel, EmailStr, Field, field_validator
 from typing import Optional, Dict, Any
 from datetime import datetime
 from enum import Enum
@@ -25,11 +25,12 @@ class Location(BaseModel):
 
 class UserCreate(BaseModel):
     full_name: str = Field(..., min_length=2, max_length=100)
-    phone: str = Field(..., regex=r'^[6-9]\d{9}$')  # Indian mobile number
+    phone: str = Field(..., pattern=r'^[6-9]\d{9}$')  # Indian mobile number
     email: Optional[EmailStr] = None
     password: str = Field(..., min_length=8, max_length=128)
     
-    @validator('password')
+    @field_validator('password')
+    @classmethod
     def validate_password(cls, v):
         if len(v) < 8:
             raise ValueError('Password must be at least 8 characters long')
@@ -41,15 +42,16 @@ class UserCreate(BaseModel):
         return v
 
 class UserLogin(BaseModel):
-    phone: Optional[str] = Field(None, regex=r'^[6-9]\d{9}$')
+    phone: Optional[str] = Field(None, pattern=r'^[6-9]\d{9}$')
     email: Optional[EmailStr] = None
     password: str
     
-    @validator('phone', 'email')
-    def validate_login_identifier(cls, v, values, field):
-        if field.name == 'phone' and v is None and values.get('email') is None:
+    @field_validator('phone', 'email')
+    @classmethod
+    def validate_login_identifier(cls, v, info):
+        if info.field_name == 'phone' and v is None and info.data.get('email') is None:
             raise ValueError('Either phone or email must be provided')
-        if field.name == 'email' and v is None and values.get('phone') is None:
+        if info.field_name == 'email' and v is None and info.data.get('phone') is None:
             raise ValueError('Either phone or email must be provided')
         return v
 
@@ -72,11 +74,12 @@ class UserInDB(UserResponse):
     password_hash: str
 
 class PasswordReset(BaseModel):
-    phone: str = Field(..., regex=r'^[6-9]\d{9}$')
-    otp: str = Field(..., regex=r'^\d{6}$')
+    phone: str = Field(..., pattern=r'^[6-9]\d{9}$')
+    otp: str = Field(..., pattern=r'^\d{6}$')
     new_password: str = Field(..., min_length=8, max_length=128)
     
-    @validator('new_password')
+    @field_validator('new_password')
+    @classmethod
     def validate_password(cls, v):
         if len(v) < 8:
             raise ValueError('Password must be at least 8 characters long')

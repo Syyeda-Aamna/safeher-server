@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from typing import Optional
 from datetime import datetime
 from enum import Enum
@@ -13,11 +13,12 @@ class Relationship(str, Enum):
 
 class ContactCreate(BaseModel):
     name: str = Field(..., min_length=2, max_length=100)
-    phone: str = Field(..., regex=r'^[6-9]\d{9}$')  # Indian mobile number
+    phone: str = Field(..., pattern=r'^[6-9]\d{9}$')  # Indian mobile number
     relationship: Relationship = Relationship.FRIEND
     is_primary: bool = False
     
-    @validator('name')
+    @field_validator('name')
+    @classmethod
     def validate_name(cls, v):
         if not v.strip():
             raise ValueError('Name cannot be empty')
@@ -25,11 +26,12 @@ class ContactCreate(BaseModel):
 
 class ContactUpdate(BaseModel):
     name: Optional[str] = Field(None, min_length=2, max_length=100)
-    phone: Optional[str] = Field(None, regex=r'^[6-9]\d{9}$')
+    phone: Optional[str] = Field(None, pattern=r'^[6-9]\d{9}$')
     relationship: Optional[Relationship] = None
     is_primary: Optional[bool] = None
     
-    @validator('name')
+    @field_validator('name')
+    @classmethod
     def validate_name(cls, v):
         if v is not None and not v.strip():
             raise ValueError('Name cannot be empty')

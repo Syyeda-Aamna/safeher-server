@@ -5,26 +5,36 @@ from contextlib import asynccontextmanager
 import uvicorn
 from config import settings
 from services.db import init_db
-from services.scheduler import start_scheduler
+from services.scheduler import start_scheduler, stop_scheduler
 from routes import auth, contacts, sos, location, checkin, incidents, police
-
-security = HTTPBearer()
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Startup
-    await init_db()
-    start_scheduler()
-    yield
-    # Shutdown
-    pass
 
 app = FastAPI(
     title="SafeHer API",
     description="Women Safety Platform API",
     version="1.0.0",
-    lifespan=lifespan
 )
+
+security = HTTPBearer()
+
+@app.on_event("startup")
+async def startup_event():
+    try:
+        await init_db()
+        print("Connected to MongoDB successfully")
+        start_scheduler()
+        print("Scheduler started successfully")
+    except Exception as e:
+        print(f"Database connection failed: {str(e)}")
+        print("Server running without database connection")
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    try:
+        stop_scheduler()
+        print("Scheduler stopped successfully")
+    except Exception as e:
+        print(f"Error stopping scheduler: {str(e)}")
+    print("Shutdown event received")
 
 # CORS middleware for mobile app
 app.add_middleware(

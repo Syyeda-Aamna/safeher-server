@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from typing import Optional
 from datetime import datetime
 from enum import Enum
@@ -19,7 +19,8 @@ class IncidentCreate(BaseModel):
     address: Optional[str] = None
     photo_url: Optional[str] = None
     
-    @validator('description')
+    @field_validator('description')
+    @classmethod
     def validate_description(cls, v):
         if not v.strip():
             raise ValueError('Description cannot be empty')
@@ -30,7 +31,8 @@ class IncidentUpdate(BaseModel):
     description: Optional[str] = Field(None, min_length=10, max_length=1000)
     photo_url: Optional[str] = None
     
-    @validator('description')
+    @field_validator('description')
+    @classmethod
     def validate_description(cls, v):
         if v is not None and not v.strip():
             raise ValueError('Description cannot be empty')

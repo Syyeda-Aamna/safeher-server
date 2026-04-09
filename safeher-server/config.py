@@ -1,21 +1,28 @@
 import os
 from typing import Optional
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 class Settings:
     # MongoDB Configuration
-    MONGO_URI: str = os.getenv("MONGO_URI", "mongodb+srv://safeheruser:SafeHer2024!@safeher.dday49y.mongodb.net/?appName=SafeHer")
+    MONGO_URI: str = os.getenv("MONGO_URI")
     
     # Fast2SMS Configuration
-    FAST2SMS_API_KEY: str = os.getenv("FAST2SMS_API_KEY", "kyJN0FelnOup1mdKaLIciw7orhXZRsjxSGQfq5zA6EYtH2BUP8V6GewN4PsUtMcQgXjqxC8DTkoE51b2")
+    FAST2SMS_API_KEY: str = os.getenv("FAST2SMS_API_KEY")
     FAST2SMS_BASE_URL: str = "https://www.fast2sms.com/dev/bulkV2"
     
     # Google Maps Configuration
-    GOOGLE_MAPS_KEY: str = os.getenv("GOOGLE_MAPS_KEY", "AIzaSyDW6d9YKdq_HYynl63ER8DfmiJK_1HHFQg")
+    GOOGLE_MAPS_KEY: str = os.getenv("GOOGLE_MAPS_KEY")
     GOOGLE_MAPS_PLACES_URL: str = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
     GOOGLE_MAPS_GEOCODE_URL: str = "https://maps.googleapis.com/maps/api/geocode/json"
     
     # JWT Configuration
-    JWT_SECRET: str = os.getenv("JWT_SECRET", "my_super_secret_key_123@secure")
+    JWT_SECRET: str = os.getenv("JWT_SECRET")
+    JWT_ALGORITHM: str = "HS256"
+    JWT_EXPIRE_MINUTES: int = 30 * 24 * 60  # 30 days
+    JWT_REFRESH_EXPIRE_MINUTES: int = 90 * 24 * 60  # 90 days
     
     # OTP Configuration
     OTP_EXPIRY_MINUTES: int = 10

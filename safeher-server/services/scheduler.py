@@ -94,6 +94,17 @@ def start_scheduler():
     except Exception as e:
         logger.error(f"Failed to start global scheduler: {str(e)}")
 
+def stop_scheduler():
+    """Stop global scheduler"""
+    global scheduler_service
+    try:
+        if scheduler_service:
+            scheduler_service.stop()
+            scheduler_service = None
+            logger.info("Global scheduler stopped")
+    except Exception as e:
+        logger.error(f"Failed to stop global scheduler: {str(e)}")
+
 def get_scheduler():
-    """Get the global scheduler instance"""
+    """Get global scheduler instance"""
     return scheduler_service
