@@ -2,9 +2,9 @@
 
 A complete, production-ready women safety platform with real-time SOS alerts, location sharing, and emergency contacts management.
 
-## 🌟 Features
+##   Features
 
-### 📱 Mobile App Features
+###  Mobile App Features
 - **One-Tap SOS**: Instant emergency alerts to all contacts
 - **Shake-to-SOS**: Trigger SOS by shaking phone vigorously
 - **Real GPS Tracking**: Live location sharing with emergency contacts
@@ -15,7 +15,7 @@ A complete, production-ready women safety platform with real-time SOS alerts, lo
 - **Offline Mode**: Works without internet using native SMS
 - **Beautiful UI**: Modern dark theme with glassmorphism design
 
-### 🌐 Server Features
+### Server Features
 - **FastAPI Backend**: High-performance REST API
 - **MongoDB Database**: Scalable cloud database
 - **Real SMS Alerts**: Fast2SMS integration for Indian numbers
@@ -24,7 +24,7 @@ A complete, production-ready women safety platform with real-time SOS alerts, lo
 - **Background Tasks**: Automated check-in monitoring
 - **Multi-User Support**: Thousands of women can use simultaneously
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
 SafeHer Platform
@@ -40,7 +40,7 @@ SafeHer Platform
     └── Beautiful Material UI
 ```
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 - Python 3.11+
@@ -105,9 +105,9 @@ buildozer android debug
 adb install bin/safeher-1.0.0-debug.apk
 ```
 
-## 📋 Detailed Setup Instructions
+## Detailed Setup Instructions
 
-### 🗄️ MongoDB Atlas Setup
+### MongoDB Atlas Setup
 
 1. **Create Account**
    - Go to [MongoDB Atlas](https://cloud.mongodb.com/)
@@ -134,7 +134,7 @@ adb install bin/safeher-1.0.0-debug.apk
    MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/safeher
    ```
 
-### 📱 Fast2SMS Setup
+### Fast2SMS Setup
 
 1. **Create Account**
    - Go to [Fast2SMS](https://www.fast2sms.com/)
@@ -150,7 +150,7 @@ adb install bin/safeher-1.0.0-debug.apk
    FAST2SMS_API_KEY=your_api_key_here
    ```
 
-### 🗺️ Google Maps API Setup
+### Google Maps API Setup
 
 1. **Create Project**
    - Go to [Google Cloud Console](https://console.cloud.google.com/)
@@ -174,7 +174,7 @@ adb install bin/safeher-1.0.0-debug.apk
    GOOGLE_MAPS_KEY=your_google_maps_key_here
    ```
 
-### 🔐 Security Setup
+### Security Setup
 
 1. **Generate JWT Secret**
    ```bash
@@ -186,7 +186,7 @@ adb install bin/safeher-1.0.0-debug.apk
    JWT_SECRET=your_generated_secret_here
    ```
 
-## 🌐 Deployment
+## Deployment
 
 ### Deploy Server to Render.com
 
@@ -229,7 +229,7 @@ adb install bin/safeher-1.0.0-debug.apk
    buildozer android debug
    ```
 
-## 📱 Testing
+## Testing
 
 ### Test Server API
 
@@ -269,7 +269,7 @@ curl -X POST https://your-app.onrender.com/api/auth/register \
    - Hold SOS button for 2 seconds
    - Check if contacts receive SMS alerts
 
-## 🔧 Development
+## Development
 
 ### Server Development
 
@@ -291,7 +291,7 @@ pip install -r requirements.txt
 python main.py
 ```
 
-## 📊 API Documentation
+## API Documentation
 
 Once deployed, visit:
 - Swagger UI: `https://your-app.onrender.com/docs`
@@ -321,7 +321,7 @@ Once deployed, visit:
 - `POST /api/location/share` - Create location share
 - `GET /api/location/live/{token}` - Public live location
 
-## 🔒 Security Features
+## Security Features
 
 - **JWT Authentication**: Secure token-based auth
 - **Password Hashing**: bcrypt with 12 rounds
@@ -330,7 +330,7 @@ Once deployed, visit:
 - **CORS Protection**: Configured for mobile app
 - **Environment Variables**: Sensitive data never in code
 
-## 📈 Scaling
+## Scaling
 
 ### Free Tier Limitations
 - **Render.com**: 750 hours/month, 512MB RAM
@@ -344,7 +344,7 @@ Once deployed, visit:
 - Implement SMS provider fallbacks
 - Add CDN for static assets
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -384,7 +384,7 @@ export SAFEHER_DEBUG=True
 python main.py
 ```
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create feature branch: `git checkout -b feature/amazing-feature`
@@ -392,18 +392,18 @@ python main.py
 4. Push to branch: `git push origin feature/amazing-feature`
 5. Open Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙋 Support
+## Support
 
 For support and questions:
 - Create an issue in the repository
 - Email: support@safeher.app
 - Documentation: [Wiki](wiki-link)
 
-## 🌟 Acknowledgments
+## Acknowledgments
 
 - [FastAPI](https://fastapi.tiangolo.com/) - Backend framework
 - [Kivy](https://kivy.org/) - Mobile app framework
@@ -413,6 +413,6 @@ For support and questions:
 
 ---
 
-**⚠️ Important**: This is a real safety application. Test thoroughly before deployment. Ensure all emergency features work correctly before relying on them in real situations.
+** Important**: This is a real safety application. Test thoroughly before deployment. Ensure all emergency features work correctly before relying on them in real situations.
 
 **🛡️ Made with ❤️ for women's safety in India**
